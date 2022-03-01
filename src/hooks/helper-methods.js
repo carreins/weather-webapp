@@ -3,7 +3,7 @@ export const filterSearch = (data) => {
     data = data.filter(res => {
         return res.class !== "building" && res.class !== "highway" && res.class !== "boundary" 
                 && res.class !== "landuse" && res.class !== "leisure" && res.class !== "tourism"
-                && res.class !== "amenity" && res.class !== "waterway" && res.class !== "natural"
+                && res.class !== "amenity" && res.class !== "waterway"
     })
     data = data.filter((value, index, self) => 
         self.findIndex(t => 
@@ -20,7 +20,9 @@ export const setDisplayName = (data) => {
             const {address} = data[i];
             let place = address.railway;
             if(!place){
-                if(address.village){
+                if(address.natural)
+                    place = address.natural;
+                else if(address.village){
                     if(address.farm)
                         place = address.farm + ", " + address.village;
                     else
@@ -35,8 +37,11 @@ export const setDisplayName = (data) => {
                         place = address.locality + ", " + address.suburb;
                     else
                         place = address.suburb;
-                } else if(address.locality)
+                } 
+                else if(address.locality)
                     place = address.locality;
+                else if(address.town)
+                    place = address.town;
                 else if(address.place)
                     place = address.place;
                 else if(address.hamlet)
@@ -96,10 +101,14 @@ export const getNextWeekendString = () => {
     let dateString = "";
 
     if(firstMonth === lastMonth && firstYear === lastYear){
-        dateString = firstDate + ".-" +  lastDate + ". " 
+        dateString = firstDate + ".-" + lastDate + ". " 
                     + firstMonth.charAt(0).toUpperCase() + firstMonth.slice(1) + " " + firstYear;
     } else{
-
+        if(firstYear === lastYear)
+            dateString = firstDate + ". " + firstMonth + " - " + lastDate + ". " + lastMonth + " " + firstYear;
+        else
+            dateString = firstDate + ". " + firstMonth + " " + firstYear + " - " 
+                        + lastDate + ". " + lastMonth + " " + lastYear;
     }
     return dateString;
 }

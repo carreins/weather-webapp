@@ -28,6 +28,7 @@ const FrontPage = () => {
     const sendLocationRequest = useGetLocation(setError);
     const sendForecastRequest = useGetForecast(setError);
 
+    //useEffect method
     useEffect(() => {
 
         //Check if location data is already loading

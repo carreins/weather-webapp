@@ -2,17 +2,24 @@
 /*React dependencies */
 import { useState, useEffect } from "react";
 
+/*Custom components */
 import TravelSuggestion from "./TravelSuggestion";
 
+/*Custom UI components */
 import Card from "../UI/Card";
 import LoadingSpinner from "../UI/LoadingSpinner";
 
+/*Custom hooks */
 import { useGetMultipleForecasts } from "../../hooks/forecast-hooks";
 import { setSortedTravelSuggestions, getNextWeekendString } from "../../hooks/helper-methods";
 
+/*Component stylesheet import */
 import classes from "./TravelSuggestions.module.css";
 
+/*Predefined data */
 import Suggestions from "./Suggestions";
+
+/*IMPORTS END */
 
 const TravelSuggestions = () => {
     const [error, setError] = useState(null);

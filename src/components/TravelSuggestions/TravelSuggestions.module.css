@@ -14,12 +14,6 @@
 .list-section ul {
     list-style: none;
     padding-left: 0;
-    height: 1100px;
+    height: calc(100vh - 230px);
     overflow: auto;
-}
-
-@media screen and (max-height: 800px) {
-  .list-section ul {
-      height: 500px;
-  }
 }

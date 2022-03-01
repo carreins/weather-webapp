@@ -2,7 +2,7 @@ const url = 'https://api.met.no/weatherapi/locationforecast/2.0';
 
 function roundMinutes(date) {
     date.setHours(date.getHours() + Math.round(date.getMinutes()/60));
-    date.setMinutes(0, 0, 0); // Resets also seconds and milliseconds
+    date.setMinutes(0, 0, 0);
     return date;
 }
 
