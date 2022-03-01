@@ -1,8 +1,15 @@
 
+/*IMPORTS */
+/*React */
 import React from "react";
+
+/*Custom UI components */
 import Card from "../UI/Card";
 
+/*Component stylesheet import */
 import classes from "./SearchInput.module.css";
+
+/*IMPORTS END */
 
 const SearchInput = React.forwardRef((props, ref) => {
     return (

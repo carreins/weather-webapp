@@ -68,12 +68,11 @@ const extractWeatherData = (weatherData, getWeekend) => {
     return body;
 }
 
-export const useGetForecast = (setError, setIsLoading) => {
+export const useGetForecast = (setError) => {
     const sendRequest = async (latitude, longitude, fn) => {
         if(!latitude || !longitude){
             setError('Koordinater mangler.');
         }else{
-            setIsLoading(prev => true);
             try{
                 const response = await fetch(`${url}/compact?lat=${latitude}&lon=${longitude}`);
             
@@ -88,7 +87,6 @@ export const useGetForecast = (setError, setIsLoading) => {
             }catch(err){
                 setError(err.message || 'Noe gikk galt.');
             }
-            setIsLoading(prev => false);
         }
     }
 

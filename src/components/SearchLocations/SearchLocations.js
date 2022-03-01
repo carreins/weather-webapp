@@ -1,15 +1,23 @@
+/*IMPORTS */
+/*React and React module dependencies */
 import { useState, useEffect, useCallback, useRef } from "react";
 
+/*Custom components */
 import SearchInput from "./SearchInput";
 import SearchLocation from "./SearchLocation";
 
+/*Custom UI components */
 import LoadingSpinner from "../UI/LoadingSpinner";
 
+/*Custom hooks */
 import { useSearchLocation } from "../../hooks/location-hooks";
 import { useGetMultipleForecasts } from "../../hooks/forecast-hooks";
 import { filterSearch, setDisplayName } from "../../hooks/helper-methods";
 
+/*Component stylesheet import */
 import classes from "./SearchLocations.module.css";
+
+/*IMPORTS END */
 
 const SearchLocations = () => {
     const searchInputRef = useRef();

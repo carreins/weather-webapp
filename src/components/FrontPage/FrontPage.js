@@ -1,6 +1,6 @@
 /*IMPORTS */
 /*React and React module dependencies */
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
 /*Custom UI components */
@@ -25,18 +25,27 @@ const FrontPage = () => {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
-    const sendLocationRequest = useGetLocation(setError, setIsLoading);
-    const sendForecastRequest = useGetForecast(setError, setIsLoading);
-
-    const getForecast = useCallback(async () => {
-        const {lat, lon} = location;
-        await sendForecastRequest(lat, lon, setForecast);
-    }, [location, sendForecastRequest])
+    const sendLocationRequest = useGetLocation(setError);
+    const sendForecastRequest = useGetForecast(setError);
 
     useEffect(() => {
+
+        //Check if location data is already loading
         if(!isLoading){
+
+            //If not, check if loading of location is done or failed
             if(!location && !error){
+
+                //If location loading is not done or failed, try to get from geolocation
                 if(navigator.geolocation){
+
+                    //Call to custom location hook to determine name of location
+                    //Params: 
+                    //1. Callback function fecthes location information
+                    //2. Error handling sets error and interrupts loading
+                    //3. Extra parameters: location data is no older than 60 seconds,
+                    //   timeout for request is 5 seconds, high accuracy of position
+                    //   is enabled
                     navigator.geolocation.getCurrentPosition(async (pos) => {
                         await sendLocationRequest(
                             pos.coords.latitude, 
@@ -44,20 +53,31 @@ const FrontPage = () => {
                             setLocation);
                     }, (msg) => {
                         setError('Kan ikke vise værvarsel; geolokasjon er ikke slått på.');
+                        setIsLoading(prev => false);
                     }, {maximumAge: 60000, timeout: 5000, enableHighAccuracy: true});
                 } else{
                     setError('Kan ikke vise værvarsel; geolokasjon er ikke tilgjengelig.');
                 }
             }
+
+            //If location is found, go inside
             if(location){
+
+                //If forecast of found location is not fetched, and no error is found, 
+                //try to fetch forecast
                 if(!forecast && !error){
-                    getForecast();
+                    const {lat, lon} = location;
+                    sendForecastRequest(lat, lon, setForecast).then(res => setIsLoading(prev => false));
                 }
             }
         }
-    }, [isLoading, location, sendLocationRequest, forecast, error, getForecast])
+    }, [isLoading, location, sendLocationRequest, forecast, error, sendForecastRequest])
 
+    //Declare source variables for forecast images
     let currentImgSrc = "", next6hoursImgSrc = "", next12hoursImgSrc = "";
+
+    //If forecast is found, try to set image sources. If match is found in public/Icons folder,
+    //icon will display in page
     if(forecast){
         if(forecast.current){
             currentImgSrc = "Icons/" + forecast.current.icon + ".svg";

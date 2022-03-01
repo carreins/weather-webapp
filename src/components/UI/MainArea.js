@@ -1,4 +1,8 @@
+/*IMPORTS */
+/*Component stylesheet import */
 import classes from "./MainArea.module.css"
+
+/*IMPORTS END */
 
 const MainArea = props => {
     return (

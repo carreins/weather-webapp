@@ -1,8 +1,14 @@
+/*IMPORTS */
+/*React module dependencies */
 import { NavLink } from "react-router-dom";
 
+/*Menu icon SVG as ReactComponent */
 import { ReactComponent as MenuIcon } from "./Icons/menu.svg";
 
+/*Component stylesheet import */
 import classes from "./Menu.module.css";
+
+/*IMPORTS END */
 
 const Menu = props => {
     return (

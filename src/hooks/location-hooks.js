@@ -1,11 +1,11 @@
+//Open source API for maps functionality
 const url = 'https://nominatim.openstreetmap.org';
 
-export const useGetLocation = (setError, setIsLoading) => {
+export const useGetLocation = (setError) => {
     const sendRequest = async (latitude, longitude, fn) => {
         if(!latitude || !longitude){
             setError('Koordinater mangler.');
         }
-        setIsLoading(prev => true);
         try{
             const response = await fetch(`${url}/reverse?lat=${latitude}&lon=${longitude}&format=json`);
         
@@ -20,7 +20,6 @@ export const useGetLocation = (setError, setIsLoading) => {
         }catch(err){
             setError(err.message || 'Noe gikk galt.');
         }
-        setIsLoading(prev => false);
     }
 
     return sendRequest;
