@@ -1,0 +1,25 @@
+.section {
+    display: inline-block;
+    width: 600px;
+}
+
+.section p {
+    padding: 0 50px;
+}
+
+.list-section {
+    width: 600px;
+}
+
+.list-section ul {
+    list-style: none;
+    padding-left: 0;
+    height: 1100px;
+    overflow: auto;
+}
+
+@media screen and (max-height: 800px) {
+  .list-section ul {
+      height: 500px;
+  }
+}

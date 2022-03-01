@@ -1,0 +1,45 @@
+
+.menu {
+    height: 100%; /* 100% Full-height */
+    width: 150px; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 3; 
+    top: 0; /* Stay at the top */
+    left: -150px;
+    display: inline-block;
+    padding-top: 10px;
+    background-color: rgba(107, 203, 248, 0.63); /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    transition: 0.4s; /* 0.5 second transition effect to slide in the sidenav */
+}  
+
+.menu a {
+    color: inherit;
+    width: 100%;
+    display: block;
+}
+
+.open-menu {
+    left: 0px;
+}
+
+.toggle {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: 0.5s;
+    height: 40px;
+    width: 50px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.toggle:hover {
+    background-color: rgb(245, 245, 241);
+    transition: 0.2s;
+}
+
+.open-toggle {
+    left: 150px;
+    transition: 0.5s;
+}

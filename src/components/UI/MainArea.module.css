@@ -1,0 +1,12 @@
+.mainarea {
+    width: 100%;
+    position: fixed;
+    transition: 0.5s;
+    padding-top: 15px;
+}
+
+.menuopen {
+    width: calc(100% - 150px);
+    left: 150px;
+    transition: 0.5s;
+}

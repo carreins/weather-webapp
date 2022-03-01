@@ -1,0 +1,27 @@
+.search-results {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.search-results ul {
+    list-style: none;
+    width: 550px;
+    display: inline-block;
+    padding-left: 0;
+    height: 1100px;
+    overflow: auto;
+}
+
+.search-results ul:not(:first-child) {
+    padding-top: 5px;
+}
+
+.search-results ul li {
+    width: 100%;
+}
+
+@media screen and (max-height: 800px) {
+    .search-results ul {
+        height: 600px;
+    }
+  }

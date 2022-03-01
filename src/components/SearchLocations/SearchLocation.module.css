@@ -1,0 +1,21 @@
+.container {
+    border-bottom: 1px solid gray;
+}
+
+.place {
+    text-align: left;
+    padding-left: 20px;
+}
+
+.weather-container {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.weather {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.weather img {margin-left: 10px;}

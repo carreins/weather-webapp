@@ -1,0 +1,39 @@
+
+.location {
+    width: 500px;
+}
+
+.header {
+    text-align: left;
+}
+
+.header span {
+    font-size: 0.8rem;
+}
+
+.header h2 {
+    margin-top: 0;
+}
+
+.current {
+    text-align: right;
+    margin-right: 5px;
+    margin-top: 10px;
+}
+
+.current span {
+    font-size: 2rem;
+    font-weight: 500;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.filler {
+    margin-top: 20px;
+}
+
+.spinner {
+    position: absolute;
+    top: 40px;
+    left: 220px;
+}
