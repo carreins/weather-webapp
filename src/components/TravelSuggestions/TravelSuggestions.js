@@ -51,7 +51,10 @@ const TravelSuggestions = () => {
             <ul>
                 {loadedSuggestions.map((item, index) => 
                 <li key={index}>
-                    <TravelSuggestion city={item.city} population={item.population} weather={item.weather_data}/>
+                    <TravelSuggestion city={item.city} 
+                                      population={item.population} 
+                                      weather={item.weather_data}
+                                      description={item.description}/>
                 </li>)}
             </ul>
         } else if(!isLoaded){
@@ -63,10 +66,13 @@ const TravelSuggestions = () => {
 
     return (
         <>
-            <h1>Reisetips</h1>
-            <div className={classes.section}>
+            <div className={classes.header}>
+                <h1>Reisetips</h1>
                 <p>Lyst til å reise? Norge har mange fine byer som er verdt et besøk. 
                     Nedenfor ser du en liste over de største byene i Norge; værvarselet gjelder neste helg (<strong>{nextWeekendStr}</strong>)</p>
+            </div>
+            
+            <div className={classes.section}>
                 <Card className={classes["list-section"]}>
                     {content}
                 </Card>

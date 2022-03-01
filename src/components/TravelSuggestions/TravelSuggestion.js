@@ -23,7 +23,9 @@ const TravelSuggestion = props => {
                         <h3>{city}</h3>
                         <span>{population} Innbyggere</span>
                     </div>
-                    {description && <div></div>}
+                    {description && <div>
+                        <p>{description}</p>
+                    </div>}
                 </Col>
             </Row>
             <Row>

@@ -8,6 +8,10 @@ const Suggestions = [
     {
         city: 'Bergen',
         population: 259958,
+        description: 'Bergen er en by og kommune i Vestland og et tidligere fylke (til 1972) ' +
+                    'på Norges vestkyst, omgitt av «De syv fjell», og omtalt som «Vestlandets' + 
+                    'hovedstad». Etter tradisjonen ble Bergen grunnlagt av Olav Kyrre i 1070' + 
+                    ' med navnet Bjørgvin, som betyr «den grønne engen mellom fjellene».',
         lat: 60.4,
         lon: 5.3
     }, 
