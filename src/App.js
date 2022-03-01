@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 
 import FrontPage from './components/FrontPage/FrontPage';
 import SearchLocations from './components/SearchLocations/SearchLocations';
@@ -19,14 +19,16 @@ function App() {
       <header>
         
       </header>
-      <Menu isOpen={menuIsOpen} onToggle={toggleHandler}/>
-      <MainArea menuIsOpen={menuIsOpen}>
-        <Routes>
-          <Route path='/' element={<FrontPage />}/>
-          <Route path='/search' element={<SearchLocations/>}/>
-          <Route path='/suggestions' element={<TravelSuggestions/>}/>
-        </Routes>
-      </MainArea>
+      <BrowserRouter>
+        <Menu isOpen={menuIsOpen} onToggle={toggleHandler}/>
+        <MainArea menuIsOpen={menuIsOpen}>
+          <Routes>
+            <Route path='/' element={<FrontPage />}/>
+            <Route path='/search' element={<SearchLocations/>}/>
+            <Route path='/suggestions' element={<TravelSuggestions/>}/>
+          </Routes>
+        </MainArea>
+      </BrowserRouter>
     </div>
   );
 }
