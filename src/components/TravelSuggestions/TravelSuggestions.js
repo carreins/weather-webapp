@@ -66,16 +66,18 @@ const TravelSuggestions = () => {
 
     return (
         <>
-            <div className={classes.header}>
-                <h1>Reisetips</h1>
-                <p>Lyst til å reise? Norge har mange fine byer som er verdt et besøk. 
-                    Nedenfor ser du en liste over de største byene i Norge; værvarselet gjelder neste helg (<strong>{nextWeekendStr}</strong>)</p>
-            </div>
-            
-            <div className={classes.section}>
-                <Card className={classes["list-section"]}>
-                    {content}
-                </Card>
+            <div className={classes.contents}>
+                <div className={classes.header}>
+                    <h1>Reisetips</h1>
+                    <p>Lyst til å reise? Norge har mange fine byer som er verdt et besøk. 
+                        Nedenfor ser du en liste over de største byene i Norge; værvarselet gjelder neste helg (<strong>{nextWeekendStr}</strong>)</p>
+                </div>
+                
+                <div className={classes.section}>
+                    <Card className={classes["list-section"]}>
+                        {content}
+                    </Card>
+                </div>
             </div>
         </>
     )

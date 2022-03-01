@@ -1,15 +1,10 @@
-.header {
+.contents {
     width: 600px;
     display: inline-block;
 }
 
 .header p {
     padding: 0 50px;
-}
-
-.section {
-    display: inline-block;
-    width: 600px;
 }
 
 .section p {
