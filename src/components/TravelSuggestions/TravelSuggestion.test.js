@@ -12,7 +12,7 @@ describe('TravelSuggestion component', () => {
     //Assert
     const headerElement = screen.queryByText('Test city', {selector: 'h3'});
     const spanElement = screen.queryByText('30000 Innbyggere', {selector: 'span'})
-    const descElement = screen.queryByText('Test description', {selector: 'p'})
+    const descElement = screen.queryByText('Test description', {selector: 'div'})
     expect(headerElement).toBeInTheDocument();
     expect(spanElement).toBeInTheDocument();
     expect(descElement).toBeInTheDocument();
