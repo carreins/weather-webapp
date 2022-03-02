@@ -85,19 +85,32 @@ export const filterSearch = (data) => {
 //If parameter sortByTemp is defined and true, data is sorted by highest average temperature.
 //Otherwise, it is sorted by best predicted weather
 export const setSortedTravelSuggestions = (data, sortByTemp) => {
+
+    //Check if sortByTemp is defined and true
     if(sortByTemp){
+
+        //If yes, sort on temperature
         data = data.sort((a, b) => {
+
+            //Find average temperatures of first sorting param
             let fridayA = (a.weather_data.friday.min_temperature + a.weather_data.friday.max_temperature) / 2
             let saturdayA = (a.weather_data.saturday.min_temperature + a.weather_data.saturday.max_temperature) / 2
             let sundayA = (a.weather_data.sunday.min_temperature + a.weather_data.sunday.max_temperature) / 2
             let avgA = (fridayA + saturdayA + sundayA) / 3;
+
+            //Find average temperatures of second sorting param
             let fridayB = (b.weather_data.friday.min_temperature + b.weather_data.friday.max_temperature) / 2
             let saturdayB = (b.weather_data.saturday.min_temperature + b.weather_data.saturday.max_temperature) / 2
             let sundayB = (b.weather_data.sunday.min_temperature + b.weather_data.sunday.max_temperature) / 2
             let avgB = (fridayB + saturdayB + sundayB) / 3;
-            return avgB - avgA
+
+            //Compare and return result
+            return avgB - avgA;
         })
+
     } else{
+
+        //If sortByTemp is undefined || false, compare summary property to sort according to weather
         data = data.sort((a, b) => {
             return a.weather_data.summary > b.weather_data.summary ? -1 : 1;
         })
@@ -106,6 +119,8 @@ export const setSortedTravelSuggestions = (data, sortByTemp) => {
     return data;
 }
 
+//getWeekendString
+//Generate formatted string to show next weekend
 export const getNextWeekendString = () => {
     const nextWeekendDate = new Date();
     nextWeekendDate.setDate(nextWeekendDate.getDate() + (7 + 5 - nextWeekendDate.getDay()) % 7);

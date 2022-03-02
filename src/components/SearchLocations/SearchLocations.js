@@ -104,25 +104,43 @@ const SearchLocations = () => {
             if(results && results.length){
                 setSearchResults(results);
             }
+
+            //End loading
             setIsLoading(prev => false);
         }
     }, [sendLocationRequest, sendForecastRequest]);
 
+    //useEffect method for SearchLocations component
     useEffect(() => {
+
+        //Check if search is loading
         if(isLoading){
+
+            //If yes, check if countdown has reached 0 and interval exists
             if(timeUntilSearch === 0 && custInterval){
+
+                //If yes, clear timer and execute search
                 clearTimer();
                 handleSearch();
             } 
         }
-    }, [timeUntilSearch, custInterval, searchResults, isLoading, clearTimer, handleSearch])
+    }, [timeUntilSearch, custInterval, isLoading, clearTimer, handleSearch])
 
+    //Declare search content 
     let content = <div>Ingen resultater funnet.</div>
+
+    //Check if error is found
     if(error){
         content = <p>{error}</p>
+
+    //Else, check if search is loading
     } else if(isLoading){
         content = <div><LoadingSpinner/></div>
+
+    //Else, check if results are found 
     } else if(searchResults && searchResults.length > 0){
+
+        //If yes, generate list
         content = <div className={classes["search-results"]}>
                     <ul>
                         {searchResults.map((searchRes, index) => {

@@ -1,5 +1,6 @@
 import { extractWeatherData, extractWeatherDataForWeekend } from "./helper-methods";
 
+//Open source API for forecast functionality
 const url = 'https://api.met.no/weatherapi/locationforecast/2.0';
 
 export const useGetForecast = (setError) => {
@@ -34,7 +35,7 @@ export const useGetMultipleForecasts = (setError) => {
         if(getWeekend){
             endpoint = 'complete';
         }
-        if(!coords || coords.length === 0){
+        if(!coords || coords.length === 0) {
             setError('Koordinater mangler.');
         } else {
             let index = 0;

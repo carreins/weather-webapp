@@ -10,7 +10,10 @@ import classes from "./SearchLocation.module.css";
 const SearchLocation = props => {
     const {address, weather} = props;
 
+    //Declare weather properties
     let temperature = "", imgSrc = "";
+
+    //If weather is defined, set weather properties
     if(weather && weather.current){
         temperature = weather.current.temperature ? weather.current.temperature : '0';
         imgSrc = "Icons/" + weather.current.icon + ".svg";
@@ -37,7 +40,6 @@ const SearchLocation = props => {
                 </Col>
             </Row>
         </Container>
-        
     )
 }
 
