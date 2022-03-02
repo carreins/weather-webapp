@@ -122,15 +122,23 @@ export const setSortedTravelSuggestions = (data, sortByTemp) => {
 //getWeekendString
 //Generate formatted string to show next weekend
 export const getNextWeekendString = () => {
+
+    //Declare date object
     const nextWeekendDate = new Date();
+
+    //Move date to next friday
     nextWeekendDate.setDate(nextWeekendDate.getDate() + (7 + 5 - nextWeekendDate.getDay()) % 7);
     nextWeekendDate.setMinutes(nextWeekendDate.getTimezoneOffset());
 
+    //Declare variables for day of month, month and year of next friday
     const firstDate = nextWeekendDate.getDate();
     const firstMonth = nextWeekendDate.toLocaleString('nb-NO', { month: 'long' });
     const firstYear = nextWeekendDate.getFullYear();
+
+    //Move date two days forward (next sunday)
     nextWeekendDate.setDate(nextWeekendDate.getDate() + 2);
 
+    //Declare variables for day of month, month and year of next sunday
     const lastDate = nextWeekendDate.getDate();
     const lastMonth = nextWeekendDate.toLocaleString('nb-NO', { month: 'long' });
     const lastYear = nextWeekendDate.getFullYear();
