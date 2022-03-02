@@ -43,11 +43,20 @@ describe('TravelSuggestion component', () => {
     //Act
 
     //Assert
+    //Spans display correct temperatures
     const fridayElement = screen.queryByText('2.3 - 4.5 °C', {selector: 'span'})
     expect(fridayElement).toBeInTheDocument();
     const saturdayElement = screen.queryByText('0.3 - 1.5 °C', {selector: 'span'})
     expect(saturdayElement).toBeInTheDocument();
     const sundayElement = screen.queryByText('3 - 4 °C', {selector: 'span'})
     expect(sundayElement).toBeInTheDocument();
+
+    //Weather icons have correct source
+    const fridayImg = screen.queryByAltText('friday', {selector: 'img'})
+    expect(fridayImg).toHaveAttribute('src', 'Icons/clearsky_day.svg')
+    const saturdayImg = screen.queryByAltText('saturday', {selector: 'img'})
+    expect(saturdayImg).toHaveAttribute('src', 'Icons/clearsky_day.svg')
+    const sundayImg = screen.queryByAltText('sunday', {selector: 'img'})
+    expect(sundayImg).toHaveAttribute('src', 'Icons/lightrain.svg')
   })
 })

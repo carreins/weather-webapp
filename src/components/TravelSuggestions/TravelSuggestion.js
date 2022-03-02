@@ -1,5 +1,6 @@
 /*IMPORTS */
 /*React dependencies */
+import { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
 /*Component stylesheet import */
@@ -8,6 +9,7 @@ import classes from "./TravelSuggestion.module.css";
 /*IMPORTS END */
 
 const TravelSuggestion = props => {
+    const [collapsed, setCollapsed] = useState(true);
     const {city, population, description, weather} = props;
     let fridaySrc = "", saturdaySrc = "", sundaySrc = "";
     if(weather){
@@ -23,8 +25,10 @@ const TravelSuggestion = props => {
                         <h3>{city}</h3>
                         <span>{population} Innbyggere</span>
                     </div>
-                    {description && <div>
-                        <p>{description}</p>
+                    {description && 
+                    <div className={`${classes.description} ${collapsed ? classes.collapsed : ''}`}
+                         onClick={() => setCollapsed(prev => !prev)}>
+                        {description}
                     </div>}
                 </Col>
             </Row>
