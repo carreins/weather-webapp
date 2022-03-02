@@ -1,24 +1,18 @@
+/*HELPER METHODS */
 
-export const filterSearch = (data) => {
-    data = data.filter(res => {
-        return res.class !== "building" && res.class !== "highway" && res.class !== "boundary" 
-                && res.class !== "landuse" && res.class !== "leisure" && res.class !== "tourism"
-                && res.class !== "amenity" && res.class !== "waterway"
-    })
-    data = data.filter((value, index, self) => 
-        self.findIndex(t => 
-            t.address.display_name_1.localeCompare(value.address.display_name_1) === 0 
-            && t.address.display_name_2.localeCompare(value.address.display_name_2) === 0
-        ) === index
-    )
-    return data;
-}
-
+//setDisplayName
+//Used to decide the displayed name of the found locations from SearchLocations component
+//The used API contains a wide variety of classes to define the locations, meaning the 
+//available address properties change between the locations
 export const setDisplayName = (data) => {
     if(data && data.length > 0)
         for(let i = 0; i < data.length; i++){
             const {address} = data[i];
+
+            //Check if railway property is available on address object
             let place = address.railway;
+
+            //If not, check other possibilities
             if(!place){
                 if(address.natural)
                     place = address.natural;
@@ -49,8 +43,14 @@ export const setDisplayName = (data) => {
                 else if(address.isolated_dwelling)
                     place = address.isolated_dwelling;
             } else {
-                place = place + " stasjon";
+
+                //If location is railway, check if "Stasjon"/"Station" is already included
+                //in place name
+                place = place + (place.toLowerCase().includes("stasjon") || 
+                                place.toLowerCase().includes("station") ? "" : " stasjon");
             }
+
+            //Set two properties for two lines of display name
             data[i].address.display_name_1 = (place ? place : '') + (place && (address.municipality || address.city) ? ', ' : '') 
                 + (address.municipality ? address.municipality : (address.city ? address.city : ''));
             data[i].address.display_name_2 = address.county ? address.county : '';
@@ -58,22 +58,44 @@ export const setDisplayName = (data) => {
     return data;
 }
 
+//filterSearch
+//Used to filter out unwanted/unnecessary results
+//Used in subsequence to method setDisplayName; displayed names are compared to avoid duplicates
+export const filterSearch = (data) => {
+
+    //Filter out unwanted/unnecessary results by location classes
+    data = data.filter(res => {
+        return res.class !== "building" && res.class !== "highway" //&& res.class !== "boundary" 
+                && res.class !== "landuse" && res.class !== "leisure" && res.class !== "tourism"
+                && res.class !== "amenity" && res.class !== "waterway" && res.class !== "shop"
+    })
+
+    //Filter out duplicates
+    data = data.filter((value, index, self) => 
+        self.findIndex(t => 
+            t.address.display_name_1.localeCompare(value.address.display_name_1) === 0 
+            && t.address.display_name_2.localeCompare(value.address.display_name_2) === 0
+        ) === index
+    )
+    return data;
+}
+
+//setSortedTravelSuggestions
+//Sort suggestions data in TravelSuggestions component by forecast 
+//If parameter sortByTemp is defined and true, data is sorted by highest average temperature.
+//Otherwise, it is sorted by best predicted weather
 export const setSortedTravelSuggestions = (data, sortByTemp) => {
     if(sortByTemp){
         data = data.sort((a, b) => {
-            let mintempA = (a.weather_data.friday.min_temperature + 
-                a.weather_data.saturday.min_temperature + 
-                a.weather_data.sunday.min_temperature) / 3
-            let mintempB = (b.weather_data.friday.min_temperature + 
-                b.weather_data.saturday.min_temperature + 
-                b.weather_data.sunday.min_temperature) / 3
-            let maxtempA = (a.weather_data.friday.max_temperature + 
-                        a.weather_data.saturday.max_temperature + 
-                        a.weather_data.sunday.max_temperature) / 3
-            let maxtempB = (b.weather_data.friday.max_temperature + 
-                        b.weather_data.saturday.max_temperature + 
-                        b.weather_data.sunday.max_temperature) / 3
-            return maxtempA > maxtempB && (maxtempA - mintempA) > (maxtempB - mintempB) ? 1 : -1 
+            let fridayA = (a.weather_data.friday.min_temperature + a.weather_data.friday.max_temperature) / 2
+            let saturdayA = (a.weather_data.saturday.min_temperature + a.weather_data.saturday.max_temperature) / 2
+            let sundayA = (a.weather_data.sunday.min_temperature + a.weather_data.sunday.max_temperature) / 2
+            let avgA = (fridayA + saturdayA + sundayA) / 3;
+            let fridayB = (b.weather_data.friday.min_temperature + b.weather_data.friday.max_temperature) / 2
+            let saturdayB = (b.weather_data.saturday.min_temperature + b.weather_data.saturday.max_temperature) / 2
+            let sundayB = (b.weather_data.sunday.min_temperature + b.weather_data.sunday.max_temperature) / 2
+            let avgB = (fridayB + saturdayB + sundayB) / 3;
+            return avgB - avgA
         })
     } else{
         data = data.sort((a, b) => {

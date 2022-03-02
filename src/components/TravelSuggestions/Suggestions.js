@@ -30,6 +30,9 @@ const Suggestions = [
     {
         city: 'Fredrikstad/Sarpsborg',
         population: 116373,
+        description: 'Fredrikstad/Sarpsborg er et tettsted, en dobbeltby langs Glommas utløp. ' + 
+                    'Dette er Norges fjerde største sammenhengende byareal etter Oslo, Bergen' + 
+                    ' og Stavanger/Sandnes.',
         lat: 59.2,
         lon: 11
     }, 

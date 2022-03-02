@@ -29,13 +29,14 @@ const extractWeatherData = (weatherData, getWeekend) => {
                     max_temperature: weatherData.timeseries[i].data.next_6_hours.details.air_temperature_max,
                     icon: weatherData.timeseries[i].data.next_6_hours.summary.symbol_code
                 };
-                if(body[day].icon.includes("clearsky")) clearsky = clearsky + 1;
+                if(body[day].icon.includes("clearsky") || body[day].icon.includes('fair')) clearsky = clearsky + 1;
                 else if(body[day].icon.includes("partlycloudy")) partlycloudy = partlycloudy + 1;
                 else if(body[day].icon.includes("cloudy")) cloudy = cloudy + 1;
                 else if(body[day].icon.includes("rain") || body[day].icon.includes("sleet")) rain = rain + 1;
                 if(day === 'sunday'){
                     body.summary = (clearsky * 7) + (partlycloudy * 5) + (cloudy * 3) + (rain * (-1));
                     clearsky = 0; partlycloudy = 0; cloudy = 0; rain = 0;
+                    console.log(body);
                     break;
                 }else{
                     day = day === 'friday' ? 'saturday' : 'sunday';
