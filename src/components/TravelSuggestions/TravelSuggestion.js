@@ -9,14 +9,22 @@ import classes from "./TravelSuggestion.module.css";
 /*IMPORTS END */
 
 const TravelSuggestion = props => {
+
+    //Declare state property to expand/collapse description, if existing
     const [collapsed, setCollapsed] = useState(true);
+
     const {city, population, description, weather} = props;
+
+    //Declare img source variables
     let fridaySrc = "", saturdaySrc = "", sundaySrc = "";
+
+    //If weather is defined in props, try to set img sources
     if(weather){
         fridaySrc = weather.friday && weather.friday.icon ? "Icons/" + weather.friday.icon + ".svg" : "";
         saturdaySrc = weather.saturday && weather.saturday.icon ? "Icons/" + weather.saturday.icon + ".svg" : "";
         sundaySrc = weather.sunday && weather.sunday.icon ? "Icons/" + weather.sunday.icon + ".svg" : "";
     }
+    
     return (
         <Container className={classes.container}>
             <Row>

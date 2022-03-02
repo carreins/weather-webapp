@@ -126,7 +126,7 @@ const SearchLocations = () => {
         }
     }, [timeUntilSearch, custInterval, isLoading, clearTimer, handleSearch])
 
-    //Declare search content 
+    //Declare search content JSX below SearchInput component
     let content = <div>Ingen resultater funnet.</div>
 
     //Check if error is found

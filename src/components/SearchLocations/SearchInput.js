@@ -12,6 +12,7 @@ import classes from "./SearchInput.module.css";
 /*IMPORTS END */
 
 const SearchInput = React.forwardRef((props, ref) => {
+    
     return (
         <Card className={`${classes.container} ${props.className ? props.className : ''}`}>
             {props.labelText && <label>{props.labelText}</label>}

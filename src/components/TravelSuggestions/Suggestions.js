@@ -1,3 +1,6 @@
+//Suggestions
+//Dummy data used for loading travel suggestions
+
 const Suggestions = [
     {
         city: 'Oslo',
