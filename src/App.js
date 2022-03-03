@@ -1,14 +1,21 @@
+/*IMPORTS */
+/*React and React module dependencies */
 import { useState } from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 
+/*Custom component pages */
 import FrontPage from './components/FrontPage/FrontPage';
 import SearchLocations from './components/SearchLocations/SearchLocations';
 import TravelSuggestions from './components/TravelSuggestions/TravelSuggestions';
 
+/*Custom UI components */
 import Menu from './components/UI/Menu';
 import MainArea from './components/UI/MainArea';
 
+/*Component stylesheet import */
 import './App.css';
+
+/*IMPORTS END */
 
 function App() {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
