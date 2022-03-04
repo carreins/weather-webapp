@@ -47,6 +47,8 @@ const FrontPage = () => {
                     //3. Extra parameters: location data is no older than 60 seconds,
                     //   timeout for request is 5 seconds, high accuracy of position
                     //   is enabled
+
+                    //NB: high accuracy is enabled, but geolocations is still somewhat off
                     navigator.geolocation.getCurrentPosition(async (pos) => {
                         await sendLocationRequest(
                             pos.coords.latitude, 
