@@ -7,24 +7,6 @@
     padding: 0 50px;
 }
 
-.sort {
-    display: flex;
-    justify-content: space-evenly;
-    padding-bottom: 10px;
-}
-
-.sort button {
-    border-width: 0;
-    padding: 5px 8px;
-    border-radius: 7px;
-}
-
-.sort button:active, .sort button:hover, .active {
-    background-color: rgb(9, 9, 218);
-    color: white;
-    transition: 0.1s ease-in;
-}
-
 .list-section {
     width: 600px;
 }
@@ -32,6 +14,6 @@
 .list-section ul {
     list-style: none;
     padding-left: 0;
-    height: calc(100vh - 265px);
+    height: calc(100vh - 420px);
     overflow: auto;
 }

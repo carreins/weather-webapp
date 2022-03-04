@@ -105,17 +105,7 @@ const TravelSuggestions = () => {
                 <div className={classes.header}>
                     <h1>Reisetips</h1>
                     <p>Lyst til å reise? Norge har mange fine byer som er verdt et besøk. 
-                        Nedenfor ser du en liste over de største byene i Norge; værvarselet gjelder neste helg (<strong>{nextWeekendStr}</strong>)</p>
-                </div>
-                <div className={classes.sort}>
-                    <button className={sortOnTemp ? '' : classes.active}
-                        onClick={() => suggestionsDispatcher({type: 'SORT_ON_WEATHER'})}>
-                        Sorter etter vær
-                    </button>
-                    <button className={sortOnTemp ? classes.active : ''}
-                        onClick={() => suggestionsDispatcher({type: 'SORT_ON_TEMP'})}>
-                        Sorter etter gj. temperatur
-                    </button>
+                        Nedenfor ser du en liste over byer i Norge; fem byer er valgt basert på værvarselet, som gjelder neste helg (<strong>{nextWeekendStr}</strong>)</p>
                 </div>
                 <div className={classes.section}>
                     <Card className={classes["list-section"]}>

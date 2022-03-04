@@ -82,41 +82,15 @@ export const filterSearch = (data) => {
 
 //setSortedTravelSuggestions
 //Sort suggestions data in TravelSuggestions component by forecast 
-//If parameter sortByTemp is defined and true, data is sorted by highest average temperature.
-//Otherwise, it is sorted by best predicted weather
+//Data is sorted by best predicted weather
 export const setSortedTravelSuggestions = (data, sortByTemp) => {
 
-    //Check if sortByTemp is defined and true
-    if(sortByTemp){
-
-        //If yes, sort on temperature
-        data = data.sort((a, b) => {
-
-            //Find average temperatures of first sorting param
-            let fridayA = (a.weather_data.friday.min_temperature + a.weather_data.friday.max_temperature) / 2
-            let saturdayA = (a.weather_data.saturday.min_temperature + a.weather_data.saturday.max_temperature) / 2
-            let sundayA = (a.weather_data.sunday.min_temperature + a.weather_data.sunday.max_temperature) / 2
-            let avgA = (fridayA + saturdayA + sundayA) / 3;
-
-            //Find average temperatures of second sorting param
-            let fridayB = (b.weather_data.friday.min_temperature + b.weather_data.friday.max_temperature) / 2
-            let saturdayB = (b.weather_data.saturday.min_temperature + b.weather_data.saturday.max_temperature) / 2
-            let sundayB = (b.weather_data.sunday.min_temperature + b.weather_data.sunday.max_temperature) / 2
-            let avgB = (fridayB + saturdayB + sundayB) / 3;
-
-            //Compare and return result
-            return avgB - avgA;
-        })
-
-    } else{
-
-        //If sortByTemp is undefined || false, compare summary property to sort according to weather
-        data = data.sort((a, b) => {
-            return a.weather_data.summary > b.weather_data.summary ? -1 : 1;
-        })
-    }
-
-    return data;
+    //If sortByTemp is undefined || false, compare summary property to sort according to weather
+    data = data.sort((a, b) => {
+        return a.weather_data.summary > b.weather_data.summary ? -1 : 1;
+    })
+    
+    return data.slice(0, 5);
 }
 
 //getWeekendString
@@ -231,7 +205,7 @@ export const extractWeatherDataForWeekend = (weatherData) => {
     let day = 'friday';
 
     //declare variables to count weather types
-    let clearsky = 0, partlycloudy = 0, cloudy = 0, rain = 0;
+    let clearsky = 0, fair = 0, partlycloudy = 0, cloudy = 0, rain = 0;
 
     //declare new date object; set to next occurring friday and round off to 12 AM
     var nextWeekendDate = date;
@@ -261,7 +235,8 @@ export const extractWeatherDataForWeekend = (weatherData) => {
             };
 
             //Count ocurrence of weather
-            if(body[day].icon.includes("clearsky") || body[day].icon.includes('fair')) clearsky = clearsky + 1;
+            if(body[day].icon.includes("clearsky")) clearsky = clearsky + 1;
+            else if(body[day].icon.includes('fair')) fair = fair + 1;
             else if(body[day].icon.includes("partlycloudy")) partlycloudy = partlycloudy + 1;
             else if(body[day].icon.includes("cloudy")) cloudy = cloudy + 1;
             else if(body[day].icon.includes("rain") || body[day].icon.includes("sleet")) rain = rain + 1;
@@ -272,7 +247,7 @@ export const extractWeatherDataForWeekend = (weatherData) => {
                 //If yes, create a numeric summary of weather. This will be used to easily sort
                 //Reset all occurrence counts
                 //Leave loop
-                body.summary = (clearsky * 7) + (partlycloudy * 5) + (cloudy * 3) + (rain * (-1));
+                body.summary = (clearsky * 7) + (fair * 6) + (partlycloudy * 5) + (cloudy * 3) + (rain * (-1));
                 clearsky = 0; partlycloudy = 0; cloudy = 0; rain = 0;
                 break;
             } else {
