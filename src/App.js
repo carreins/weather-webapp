@@ -23,9 +23,6 @@ function App() {
 
   return (
     <div className="App">
-      <header>
-        <meta name='title' content='Vær-app'/>
-      </header>
       <BrowserRouter>
         <Menu isOpen={menuIsOpen} onToggle={toggleHandler}/>
         <MainArea menuIsOpen={menuIsOpen}>
