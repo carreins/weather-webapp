@@ -125,6 +125,8 @@ const SearchLocations = () => {
         if(latitude && longitude){
             setModalIsLoading(prev => true);
             sendForecastRequest(latitude, longitude, setSelectedResult, true).then(res => {
+
+                //Insert display name for modal usage
                 setSelectedResult(prev => {
                     return {...prev, display_name: address.display_name_1 + (address.display_name_2 ? ", " + address.display_name_2 : '')}
                 })
@@ -135,6 +137,7 @@ const SearchLocations = () => {
         }
     }
 
+    //When modal is closed, reset all modal properties
     const resetModal = () => {
         setModalError(null);
         setModalIsLoading(false);

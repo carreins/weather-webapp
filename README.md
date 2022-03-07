@@ -1,6 +1,11 @@
-# Getting Started with Create React App
+# About this project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a simplified demo application for weather reporting, with three main functions/pages:
+
+1.  Show the weather forecast of the user's current location.
+2.  Allow the user to search locations by name; it is possible to click a search result to show further details about the weather forecast. The searhc is limited to results within Norway.
+3.  Show five suggestions for travelling in Norway, based on forecast of next weekend. Suggestions are based off a list of the 10 biggest cities/towns in Norway: https://hovedsteder.no/norges-storste-byer.htm
+
 
 ## Available Scripts
 
