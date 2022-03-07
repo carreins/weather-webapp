@@ -1,5 +1,11 @@
 .container {
     border-bottom: 1px solid gray;
+    border-radius: 5px;
+}
+
+.container:hover {
+    background-color: rgba(123, 123, 123, 0.3);
+    cursor: pointer;
 }
 
 .place {

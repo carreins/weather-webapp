@@ -1,6 +1,6 @@
 /*IMPORTS */
 /*Custom hooks */
-import { extractWeatherData, extractWeatherDataForWeekend } from "./helper-methods";
+import { extractWeatherData, extractWeatherDataForWeek, extractWeatherDataForWeekend } from "./helper-methods";
 
 /*IMPORTS END */
 
@@ -15,7 +15,8 @@ export const useGetForecast = (setError) => {
     //Async function returned
     //If params latitude and longitude is set, request is sent to API to receive forecast data
     //If param fn is set, it will receive the resulting response data if the request is successful
-    const sendRequest = async (latitude, longitude, fn) => {
+    //If param getWeek is true, forecast for entire week is fetched
+    const sendRequest = async (latitude, longitude, fn, getWeek) => {
 
         //If latitude or longitude is missing, add error and skip rest
         if(!latitude || !longitude){
@@ -25,8 +26,9 @@ export const useGetForecast = (setError) => {
 
             try{
 
+                console.log(`${url}/${getWeek ? 'complete' : 'compact'}?lat=${latitude}&lon=${longitude}`);
                 //Try to send request to forecast API
-                const response = await fetch(`${url}/compact?lat=${latitude}&lon=${longitude}`);
+                const response = await fetch(`${url}/${getWeek ? 'complete' : 'compact'}?lat=${latitude}&lon=${longitude}`);
             
                 //If request is not successful, throw error
                 if(!response.ok){
@@ -36,7 +38,16 @@ export const useGetForecast = (setError) => {
                 //If fn is set, send response data through it
                 if(fn){
                     const data = await response.json();
-                    fn(extractWeatherData(data.properties));
+                    let extractedData = [];
+
+                    if(getWeek){
+                        extractedData = extractWeatherDataForWeek(data.properties);
+
+                    } else {
+                        extractedData = extractWeatherData(data.properties);
+                        
+                    }
+                    fn(extractedData);
                 }
 
             }catch(err){
@@ -58,8 +69,10 @@ export const useGetMultipleForecasts = (setError) => {
 
     //Async function returned
     //If param coords is set, request is sent to API to fetch search results matching the param
-    //Param getWeekend is used to extract data based on API call
-    const sendRequest = async (coords, getWeekend) => {
+    //Param getWeekend is used to extract data based on API call:
+    //  - If true, weather data for next weekend is fetched
+    //  - Otherwise, weather data for current time, next 6 hours and next 12 hours is fetched
+    const sendRequest = async (coords, getNextweekend) => {
 
         //Declare results array
         let results = [];
@@ -74,7 +87,7 @@ export const useGetMultipleForecasts = (setError) => {
             let endpoint = 'compact';
 
             //If getWeekend is defined and true, change endpoint to receive different data
-            if(getWeekend){
+            if(getNextweekend){
                 endpoint = 'complete';
             }
 
@@ -104,7 +117,7 @@ export const useGetMultipleForecasts = (setError) => {
                         const data = await response.json();
 
                         //Extract data and set on array
-                        if(getWeekend) {
+                        if(getNextweekend) {
                             coords[index].weather_data = extractWeatherDataForWeekend(data.properties);
 
                         } else {

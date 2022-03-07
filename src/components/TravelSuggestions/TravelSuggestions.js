@@ -1,6 +1,6 @@
 /*IMPORTS */
 /*React dependencies */
-import { useState, useReducer, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 /*Custom components */
 import TravelSuggestion from "./TravelSuggestion";
@@ -21,49 +21,23 @@ import Suggestions from "./Suggestions";
 
 /*IMPORTS END */
 
-//Initial state for reducer
-const initSuggestionState = { isLoaded: false, sortOnTemp: false, suggestions: [] }
-
-//suggestionsReducer: function for reducer handling on suggestions loading/sorting
-const suggestionsReducer = (state, action) => {
-
-    //Switch on action type
-    switch(action.type){
-
-        //REFRESH: set suggestions from sent data
-        case 'REFRESH':
-            return { isLoaded: true, sortOnTemp: state.sortOnTemp, suggestions: action.data }
-
-        //SORT_ON_TEMP: set sortOnTemp to true
-        case 'SORT_ON_TEMP':
-            return { isLoaded: state.sortOnTemp === true, sortOnTemp: true, suggestions: state.suggestions }
-        
-        //SORT_ON_WEATHER: set sortOnTemp to false
-        case 'SORT_ON_WEATHER':
-            return { isLoaded: state.sortOnTemp === false, sortOnTemp: false, suggestions: state.suggestions }
-    }
-
-    return initSuggestionState;
-}
 
 const TravelSuggestions = () => {
     const [error, setError] = useState(null);
-
-    //Declare reducer state and dispatcher for travel suggestions control
-    const [suggestionsState, suggestionsDispatcher] = useReducer(suggestionsReducer, initSuggestionState)
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [suggestions, setSuggestions] = useState([]);
 
     const sendRequest = useGetMultipleForecasts(setError);
-
-    const {isLoaded, sortOnTemp, suggestions} = suggestionsState;
 
     useEffect(() => {
         if(!isLoaded){
             sendRequest(Suggestions, true).then(result => {
-                const sortedData = setSortedTravelSuggestions(result, sortOnTemp);
-                suggestionsDispatcher({type: 'REFRESH', data: sortedData});
+                const sortedData = setSortedTravelSuggestions(result);
+                setSuggestions(sortedData);
+                setIsLoaded(true);
             });
         }
-    }, [isLoaded, sendRequest, sortOnTemp]);
+    }, [isLoaded, sendRequest]);
 
     //Get formatted string for next weekend dates
     const nextWeekendStr = getNextWeekendString();

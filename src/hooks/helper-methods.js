@@ -83,7 +83,7 @@ export const filterSearch = (data) => {
 //setSortedTravelSuggestions
 //Sort suggestions data in TravelSuggestions component by forecast 
 //Data is sorted by best predicted weather
-export const setSortedTravelSuggestions = (data, sortByTemp) => {
+export const setSortedTravelSuggestions = (data) => {
 
     //If sortByTemp is undefined || false, compare summary property to sort according to weather
     data = data.sort((a, b) => {
@@ -191,7 +191,8 @@ export const extractWeatherData = (weatherData) => {
 
 //extractWeatherData
 //Used to extract data from the complex JSON objects from forecast API into simpler objects for use in UI
-//If getNextWeekend is defined and true, weather data from next weekend should be extracted
+//A property /summary/ is also inserted to maintain a weather score. This is becausew the
+//  method will mainly be used to display sorted results for travel suggestions
 export const extractWeatherDataForWeekend = (weatherData) => {
 
     //declare starting object
@@ -255,6 +256,68 @@ export const extractWeatherDataForWeekend = (weatherData) => {
                 //If no, move day forward
                 day = day === 'friday' ? 'saturday' : 'sunday';
                 nextWeekendDate.setDate(nextWeekendDate.getDate() + 1);
+            }
+        } 
+    }
+
+    //return object
+    return body;
+}
+
+export const extractWeatherDataForWeek = (weatherData) => {
+
+    //declare starting object
+    const body = {
+    };
+
+    //declare starting date object
+    var date = new Date();
+
+    //declare new date object; set to tomorrow and round off to 12 AM
+    var nextDate = date;
+    nextDate.setDate(date.getDate() + 1);
+    nextDate.setMinutes(nextDate.getTimezoneOffset());
+    nextDate.setHours(12);
+    nextDate.setMinutes(0, 0, 0);
+
+    let day = "I morgen"; 
+    console.log(day);
+
+    let daysFound = 0;
+
+    //Iterate timeseries in weatherData object
+     for(let i = 0; i < weatherData.timeseries.length; i++){
+
+        //Move date to next time
+        date = new Date(weatherData.timeseries[i].time);
+
+        //Adjust to current time zone
+        date.setMinutes(nextDate.getTimezoneOffset());
+
+        //Check if date and time matches current timeseries
+        if(nextDate.getTime() === date.getTime()){
+
+            //If yes, fetch weather data
+            const {next_6_hours} = weatherData.timeseries[i].data;
+            body[day] = {
+                min_temperature: next_6_hours.details.air_temperature_min,
+                max_temperature: next_6_hours.details.air_temperature_max,
+                icon: next_6_hours.summary.symbol_code
+            };
+
+            daysFound++;
+
+            //Check if all week data is found 
+            if(daysFound === 7){
+
+                //If yes, leave loop
+                break;
+            } else {
+
+                //If no, move day forward
+                nextDate.setDate(nextDate.getDate() + 1);
+                day = nextDate.toLocaleDateString("nb-NO", { weekday: 'long' });
+                day = day.charAt(0).toUpperCase() + day.slice(1);
             }
         } 
     }

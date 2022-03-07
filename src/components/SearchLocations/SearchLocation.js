@@ -20,7 +20,7 @@ const SearchLocation = props => {
     }
 
     return (
-        <Container className={classes.container}>
+        <Container className={classes.container} onClick={props.onSelect}>
             <Row>
                 <Col md="7" className={classes.place}>
                     <h3>

@@ -8,10 +8,11 @@ import SearchLocation from "./SearchLocation";
 
 /*Custom UI components */
 import LoadingSpinner from "../UI/LoadingSpinner";
+import SearchModal from "./SearchModal";
 
 /*Custom hooks */
 import { useSearchLocation } from "../../hooks/location-hooks";
-import { useGetMultipleForecasts } from "../../hooks/forecast-hooks";
+import { useGetForecast, useGetMultipleForecasts } from "../../hooks/forecast-hooks";
 import { filterSearch, setDisplayName } from "../../hooks/helper-methods";
 
 /*Component stylesheet import */
@@ -24,12 +25,19 @@ const SearchLocations = () => {
 
     const [timeUntilSearch, setTimeUntilSearch] = useState(2);
     const [custInterval, setCustInterval] = useState();
+
     const [searchResults, setSearchResults] = useState([]);
+    const [selectedResult, setSelectedResult] = useState();
+
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
+    const [modalError, setModalError] = useState(null);
+    const [modalIsLoading, setModalIsLoading] = useState(false);
+
     const sendLocationRequest = useSearchLocation(setError);
-    const sendForecastRequest = useGetMultipleForecasts(setError);
+    const sendForecastRequest = useGetForecast(setModalError);
+    const sendForecastMultipleRequest = useGetMultipleForecasts(setError);
 
     //changeHandler: event handler for search input changes
     const changeHandler = e => {
@@ -98,7 +106,7 @@ const SearchLocations = () => {
             results = filterSearch(results);
 
             //Send request for remaining results
-            results = await sendForecastRequest(results);
+            results = await sendForecastMultipleRequest(results);
 
             //Show results if found
             if(results && results.length){
@@ -108,7 +116,30 @@ const SearchLocations = () => {
             //End loading
             setIsLoading(prev => false);
         }
-    }, [sendLocationRequest, sendForecastRequest]);
+    }, [sendLocationRequest, sendForecastMultipleRequest]);
+
+    //selectHandler: function to handle selection of a single search result
+    const selectHandler = (latitude, longitude, address) => {
+
+        //If latitude and longitude are set, try to fetch weather data
+        if(latitude && longitude){
+            setModalIsLoading(prev => true);
+            sendForecastRequest(latitude, longitude, setSelectedResult, true).then(res => {
+                setSelectedResult(prev => {
+                    return {...prev, display_name: address.display_name_1 + (address.display_name_2 ? ", " + address.display_name_2 : '')}
+                })
+                setModalIsLoading(prev => false);
+            });
+        } else{
+            alert("Koordinater mangler.");
+        }
+    }
+
+    const resetModal = () => {
+        setModalError(null);
+        setModalIsLoading(false);
+        setSelectedResult();
+    }
 
     //useEffect method for SearchLocations component
     useEffect(() => {
@@ -144,10 +175,11 @@ const SearchLocations = () => {
         content = <div className={classes["search-results"]}>
                     <ul>
                         {searchResults.map((searchRes, index) => {
-                            console.log(searchRes);
                             return (
                                 <li key={index}>
-                                    <SearchLocation address={searchRes.address} weather={searchRes.weather_data}/>            
+                                    <SearchLocation address={searchRes.address} 
+                                                    weather={searchRes.weather_data} 
+                                                    onSelect={() => selectHandler(searchRes.lat, searchRes.lon, searchRes.address)}/>            
                                 </li>
                             )
                         })} 
@@ -161,6 +193,10 @@ const SearchLocations = () => {
             <SearchInput placeholder={"Søk stedsnavn"} onChange={changeHandler} ref={searchInputRef}
                          error={error}/>
             {content}
+            {(selectedResult || modalIsLoading) && <SearchModal onClose={resetModal} 
+                                                                isLoading={modalIsLoading} 
+                                                                error={modalError}
+                                                                weatherData={selectedResult}/>}
         </>
     )
 };
