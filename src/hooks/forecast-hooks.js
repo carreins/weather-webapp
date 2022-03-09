@@ -1,6 +1,6 @@
 /*IMPORTS */
 /*Custom hooks */
-import { extractWeatherData, extractWeatherDataForWeek, extractWeatherDataForWeekend } from "./helper-methods";
+import { extractWeatherData, extractWeatherDataForWeek, extractWeatherDataForWeekend } from "./forecast-helper-hooks";
 
 /*IMPORTS END */
 

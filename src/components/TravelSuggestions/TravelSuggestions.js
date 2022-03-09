@@ -11,7 +11,7 @@ import LoadingSpinner from "../UI/LoadingSpinner";
 
 /*Custom hooks */
 import { useGetMultipleForecasts } from "../../hooks/forecast-hooks";
-import { setSortedTravelSuggestions, getNextWeekendString } from "../../hooks/helper-methods";
+import { setSortedTravelSuggestions, getNextWeekendString } from "../../hooks/location-helper-hooks";
 
 /*Component stylesheet import */
 import classes from "./TravelSuggestions.module.css";

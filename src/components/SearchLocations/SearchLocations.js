@@ -13,7 +13,7 @@ import SearchModal from "./SearchModal";
 /*Custom hooks */
 import { useSearchLocation } from "../../hooks/location-hooks";
 import { useGetForecast, useGetMultipleForecasts } from "../../hooks/forecast-hooks";
-import { filterSearch, setDisplayName } from "../../hooks/helper-methods";
+import { filterSearch, setDisplayName, useCountdownTimer } from "../../hooks/location-helper-hooks";
 
 /*Component stylesheet import */
 import classes from "./SearchLocations.module.css";
@@ -21,11 +21,10 @@ import classes from "./SearchLocations.module.css";
 /*IMPORTS END */
 
 const SearchLocations = () => {
+    /*useRef */
     const searchInputRef = useRef();
 
-    const [timeUntilSearch, setTimeUntilSearch] = useState(2);
-    const [custInterval, setCustInterval] = useState();
-
+    /*useState */
     const [searchResults, setSearchResults] = useState([]);
     const [selectedResult, setSelectedResult] = useState();
 
@@ -38,6 +37,7 @@ const SearchLocations = () => {
     const sendLocationRequest = useSearchLocation(setError);
     const sendForecastRequest = useGetForecast(setModalError);
     const sendForecastMultipleRequest = useGetMultipleForecasts(setError);
+    const { startOrResetTimer, stopAndClearTimer, isComplete } = useCountdownTimer(2);
 
     //changeHandler: event handler for search input changes
     const changeHandler = e => {
@@ -48,40 +48,17 @@ const SearchLocations = () => {
 
         //If search input is empty, interrupt search
         if(e.target.value.trim().length === 0){
-            clearTimer();
+            stopAndClearTimer();
             setIsLoading(prev => false);
             return;
         }
 
         //Search will execute if no input text exists and no changes are detected 
-        //in the last 2 seconds
-
-        //If interval already exists, timer is reset
-        if(custInterval){
-            setTimeUntilSearch(prev => 2);
-
-        //If interval does not exist, it is created;
-        //Interval counts down to search
-        } else{
-            setIsLoading(prev => true);
-            setCustInterval(setInterval(() => {
-                setTimeUntilSearch(prev => {
-                    if (prev > 0) {
-                        return prev - 1;
-                    }  
-                })
-            }, 1000));
-        }
+        //in the last 2 seconds  
+        setIsLoading(prev => true);
+        
+        startOrResetTimer();
     }
-
-    //clearTimer: function to reset and remove search timer
-    const clearTimer = useCallback(() => {
-        setCustInterval(prev => {
-            clearInterval(custInterval);
-            return undefined;
-        })
-        setTimeUntilSearch(prev => 2);
-    }, [custInterval]);
 
     //handleSearch: function to handle the searching based on input value
     const handleSearch = useCallback(async () => {
@@ -151,30 +128,29 @@ const SearchLocations = () => {
         if(isLoading){
 
             //If yes, check if countdown has reached 0 and interval exists
-            if(timeUntilSearch === 0 && custInterval){
+            if(isComplete){
 
                 //If yes, clear timer and execute search
-                clearTimer();
+                stopAndClearTimer();
                 handleSearch();
             } 
         }
-    }, [timeUntilSearch, custInterval, isLoading, clearTimer, handleSearch])
+    }, [isLoading, isComplete, stopAndClearTimer, handleSearch])
 
     //Declare search content JSX below SearchInput component
     let content = <div>Ingen resultater funnet.</div>
 
-    //Check if error is found
     if(error){
+
+        //If error is found, display error text
         content = <p>{error}</p>
-
-    //Else, check if search is loading
     } else if(isLoading){
-        content = <div><LoadingSpinner/></div>
 
-    //Else, check if results are found 
+        //Else if loading, display loading spinner
+        content = <div><LoadingSpinner/></div>
     } else if(searchResults && searchResults.length > 0){
 
-        //If yes, generate list
+        //Else if search results are found, map and display list
         content = <div className={classes["search-results"]}>
                     <ul>
                         {searchResults.map((searchRes, index) => {
