@@ -6,6 +6,9 @@ This is a simplified demo application for weather reporting, with three main fun
 2.  Allow the user to search locations by name; it is possible to click a search result to show further details about the weather forecast. The searhc is limited to results within Norway.
 3.  Show five suggestions for travelling in Norway, based on forecast of next weekend. Suggestions are based off a list of the 10 biggest cities/towns in Norway: https://hovedsteder.no/norges-storste-byer.htm
 
+The project utilizes open source APIs, which require no registrations, keys or secrets:
+- [Nominatim API for OpenStreetMap.org](https://nominatim.org/release-docs/develop/api/Overview/)
+- [Forecast API for Norwegian Institute of Meteorology](https://api.met.no/weatherapi/locationforecast/2.0)
 
 ## Available Scripts
 
