@@ -84,7 +84,7 @@ const TravelSuggestions = () => {
     
     //If error is detected, show in paragraph
     } else {
-        content = <p>{error}</p>
+        content = <p className={classes.error}>{error}</p>
     }
 
     return (

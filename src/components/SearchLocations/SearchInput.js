@@ -12,15 +12,18 @@ import classes from "./SearchInput.module.css";
 /*IMPORTS END */
 
 const SearchInput = React.forwardRef((props, ref) => {
-    
+    const { className, labelText, type, placeholder, error, onChange } = props;
     return (
-        <Card className={`${classes.container} ${props.className ? props.className : ''}`}>
-            {props.labelText && <label>{props.labelText}</label>}
-            <input type={props.type ? props.type : "text"} 
-                   placeholder={props.placeholder ? props.placeholder : "Søk"}
-                   onChange={props.onChange}
-                   ref={ref}/>
-        </Card>
+        <>
+            <Card className={`${classes.container} ${className ? className : ''}`}>
+                {labelText && <label>{labelText}</label>}
+                <input type={type ? type : "text"} 
+                    placeholder={placeholder ? placeholder : "Søk"}
+                    onChange={onChange}
+                    ref={ref}/>
+            </Card>
+            {error && <p className={classes.error}>{error}</p>}
+        </>
     )
 });
 

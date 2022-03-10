@@ -62,7 +62,10 @@ const ModalOverlay = props => {
     /*Built-in hooks */
     //useEffect method for loading weather based on props 
     useEffect(() => {
+
         if(!weather && !error) {
+
+            //If weather is not loaded, and error is not found, try to load the weather 
             loadWeather();
         }
     }, [weather, error, loadWeather])

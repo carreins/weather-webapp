@@ -145,10 +145,10 @@ const FrontPage = () => {
                             </Row>
                         </Container>
                         {isLoading && !error && <LoadingSpinner className={classes.spinner}/>}
-                        {error && <p>{error}</p>}
                     </>
                 </div>
             </Card>
+            {error && <p className={classes.error}>{error}</p>}
         </>
     );
 }

@@ -23,3 +23,9 @@
         height: calc(100vh - 420px);
     }
 }
+
+.error {
+    color: red;
+    margin-top: 10px;
+    font-weight: bolder;
+}

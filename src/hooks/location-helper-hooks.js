@@ -14,7 +14,7 @@ export const setDisplayName = (data) => {
     if(data && data.length > 0)
         for(let i = 0; i < data.length; i++){
             const {address} = data[i];
-
+            
             //Check if railway property is available on address object
             let place = address.railway;
 
@@ -61,8 +61,19 @@ export const setDisplayName = (data) => {
             }
 
             //Set two properties for two lines of display name
-            data[i].address.display_name_1 = (place ? place : '') + (place && (address.municipality || address.city) ? ', ' : '') 
-                + (address.municipality ? address.municipality : (address.city ? address.city : ''));
+            let display_name_1 = (place ? place : '');
+            if(place){
+                if((address.municipality && address.municipality !== place) || (address.city && address.city !== place))
+                    display_name_1 = display_name_1 + ', ' + (address.municipality ? address.municipality : (address.city ? address.city : ''));
+            } else if(address.municipality){
+                display_name_1 = address.municipality;
+            } else if(address.city) {
+                display_name_1 = address.city;
+            } 
+            if(!address.county){
+                console.log(address);
+            }
+            data[i].address.display_name_1 = display_name_1;
             data[i].address.display_name_2 = address.county ? address.county : '';
         }
     return data;
@@ -74,9 +85,11 @@ export const setDisplayName = (data) => {
 //Used in subsequence to method setDisplayName; displayed names are compared to avoid duplicates
 export const filterSearch = (data) => {
 
+    console.log(data);
+
     //Filter out unwanted/unnecessary results by location classes
     data = data.filter(res => {
-        return res.class !== "building" //&& res.class !== "highway" && res.class !== "boundary" 
+        return res.class !== "building" //&& res.class !== "farm" && res.class !== "boundary" 
                 && res.class !== "landuse" && res.class !== "leisure" && res.class !== "tourism"
                 && res.class !== "amenity" && res.class !== "waterway" && res.class !== "shop"
     })

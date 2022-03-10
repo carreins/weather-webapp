@@ -37,3 +37,9 @@
     top: 40px;
     left: 220px;
 }
+
+.error {
+    color: red;
+    margin-top: 10px;
+    font-weight: bolder;
+}

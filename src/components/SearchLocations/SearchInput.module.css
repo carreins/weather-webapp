@@ -7,3 +7,9 @@
 .container input:focus {
     outline: none;
 }
+
+.error {
+    color: red;
+    margin-top: 10px;
+    font-weight: bolder;
+}

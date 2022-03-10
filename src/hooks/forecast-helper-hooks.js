@@ -150,8 +150,6 @@ export const extractWeatherDataForWeek = (weatherData) => {
     nextDate.setMinutes(0, 0, 0);
 
     let day = "I morgen"; 
-    console.log(day);
-
     let daysFound = 0;
 
     //Iterate timeseries in weatherData object
