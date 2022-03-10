@@ -10,6 +10,8 @@ The project utilizes open source APIs, which require no registrations, keys or s
 - [Nominatim API for OpenStreetMap.org](https://nominatim.org/release-docs/develop/api/Overview/)
 - [Forecast API for Norwegian Institute of Meteorology](https://api.met.no/weatherapi/locationforecast/2.0)
 
+Simply run the project, and these APIs will be accessible.
+
 ## Available Scripts
 
 In the project directory, you can run:
