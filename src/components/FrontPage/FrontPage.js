@@ -20,14 +20,20 @@ import "bootstrap/dist/css/bootstrap.min.css";
 /*IMPORTS END */
 
 const FrontPage = () => {
+
+    /*useState */
     const [location, setLocation] = useState();
     const [forecast, setForecast] = useState();
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
+
+    /*Custom hooks */
     const sendLocationRequest = useGetLocation(setError);
     const sendForecastRequest = useGetForecast(setError);
 
+
+    /*Built-in hooks */
     //useEffect method
     useEffect(() => {
 
@@ -76,6 +82,8 @@ const FrontPage = () => {
         }
     }, [isLoading, location, sendLocationRequest, forecast, error, sendForecastRequest])
 
+
+    /*Content */
     //Declare source variables for forecast images
     let currentImgSrc = "", next6hoursImgSrc = "", next12hoursImgSrc = "";
 

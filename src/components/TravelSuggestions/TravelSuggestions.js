@@ -23,22 +23,36 @@ import Suggestions from "./Suggestions";
 
 
 const TravelSuggestions = () => {
+
+    /*useState */
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [suggestions, setSuggestions] = useState([]);
 
+
+    /*Custom hooks */
     const sendRequest = useGetMultipleForecasts(setError);
 
+
+    /*Buil-in hooks */
+    //useEffect method
     useEffect(() => {
-        if(!isLoaded){
+
+        if(!isLoaded && !error){
+
+            //If component is not loaded and no error is found, send request to fetch data
             sendRequest(Suggestions, true).then(result => {
+
+                //Sort and set data
                 const sortedData = setSortedTravelSuggestions(result);
                 setSuggestions(sortedData);
                 setIsLoaded(true);
             });
         }
-    }, [isLoaded, sendRequest]);
+    }, [isLoaded, error, sendRequest]);
 
+
+    /*Content */
     //Get formatted string for next weekend dates
     const nextWeekendStr = getNextWeekendString();
 

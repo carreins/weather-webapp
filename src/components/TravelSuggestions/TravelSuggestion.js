@@ -10,11 +10,14 @@ import classes from "./TravelSuggestion.module.css";
 
 const TravelSuggestion = props => {
 
-    //Declare state property to expand/collapse description, if existing
-    const [collapsed, setCollapsed] = useState(true);
-
+    //Extract proeprties
     const {city, population, description, weather} = props;
 
+    /*useState */
+    const [collapsed, setCollapsed] = useState(true);
+
+
+    /*Content */
     //Declare img source variables
     let fridaySrc = "", saturdaySrc = "", sundaySrc = "";
 

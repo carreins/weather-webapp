@@ -8,8 +8,12 @@ import classes from "./SearchLocation.module.css";
 /*IMPORTS END */
 
 const SearchLocation = props => {
+
+    //Extract proeprties
     const {address, weather} = props;
 
+
+    /*Content */
     //Declare weather properties
     let temperature = "", imgSrc = "";
 
