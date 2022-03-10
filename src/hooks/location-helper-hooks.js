@@ -24,6 +24,10 @@ export const setDisplayName = (data) => {
                     place = address.natural;
                 else if(address.boundary)
                     place = address.boundary;
+                else if(address.highway)
+                    place = address.highway;
+                else if(address.place)
+                    place = address.place;
                 else if(address.village){
                     if(address.farm)
                         place = address.farm + ", " + address.village;
@@ -44,8 +48,6 @@ export const setDisplayName = (data) => {
                     place = address.locality;
                 else if(address.town)
                     place = address.town;
-                else if(address.place)
-                    place = address.place;
                 else if(address.hamlet)
                     place = address.hamlet;
                 else if(address.isolated_dwelling)
@@ -74,7 +76,7 @@ export const filterSearch = (data) => {
 
     //Filter out unwanted/unnecessary results by location classes
     data = data.filter(res => {
-        return res.class !== "building" && res.class !== "highway" //&& res.class !== "boundary" 
+        return res.class !== "building" //&& res.class !== "highway" && res.class !== "boundary" 
                 && res.class !== "landuse" && res.class !== "leisure" && res.class !== "tourism"
                 && res.class !== "amenity" && res.class !== "waterway" && res.class !== "shop"
     })

@@ -1,6 +1,6 @@
 /*IMPORTS */
 /*React and React module dependencies */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 
 /*Custom UI components */
@@ -38,7 +38,8 @@ const ModalOverlay = props => {
 
     /*Functions */
     //selectHandler: function to handle selection of a single search result
-    const loadWeather = () => {
+    //Using a useCallback wrapper for use in useEffect
+    const loadWeather = useCallback(() => {
 
         //If latitude and longitude are set, try to fetch weather data
         if(latitude && longitude){
@@ -46,15 +47,16 @@ const ModalOverlay = props => {
             sendForecastRequest(latitude, longitude, setWeather, true).then(res => {
 
                 //Insert display name for modal usage
+                const { display_name_1, display_name_2 } = address;
                 setWeather(prev => {
-                    return {...prev, display_name: address.display_name_1 + (address.display_name_2 ? ", " + address.display_name_2 : '')}
+                    return {...prev, display_name: display_name_1 + (display_name_2 ? ", " + display_name_2 : '')}
                 })
                 setIsLoading(prev => false);
             });
         } else{
             setError("Koordinater mangler.");
         }
-    }
+    }, [latitude, longitude, address, sendForecastRequest]);
 
 
     /*Built-in hooks */
