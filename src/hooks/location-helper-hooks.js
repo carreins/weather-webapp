@@ -22,6 +22,8 @@ export const setDisplayName = (data) => {
             if(!place){
                 if(address.natural)
                     place = address.natural;
+                else if(address.boundary)
+                    place = address.boundary;
                 else if(address.village){
                     if(address.farm)
                         place = address.farm + ", " + address.village;

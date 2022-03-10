@@ -12,7 +12,7 @@ import SearchModal from "./SearchModal";
 
 /*Custom hooks */
 import { useSearchLocation } from "../../hooks/location-hooks";
-import { useGetForecast, useGetMultipleForecasts } from "../../hooks/forecast-hooks";
+import { useGetMultipleForecasts } from "../../hooks/forecast-hooks";
 import { filterSearch, setDisplayName, useCountdownTimer } from "../../hooks/location-helper-hooks";
 
 /*Component stylesheet import */
@@ -24,21 +24,21 @@ const SearchLocations = () => {
     /*useRef */
     const searchInputRef = useRef();
 
-    /*useState */
-    const [searchResults, setSearchResults] = useState([]);
-    const [selectedResult, setSelectedResult] = useState();
 
+    /*useState properties*/
+    const [searchResults, setSearchResults] = useState([]);
+    const [selectedLocation, setSelectedLocation] = useState();
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
-    const [modalError, setModalError] = useState(null);
-    const [modalIsLoading, setModalIsLoading] = useState(false);
 
+    /*Custom hooks */
     const sendLocationRequest = useSearchLocation(setError);
-    const sendForecastRequest = useGetForecast(setModalError);
     const sendForecastMultipleRequest = useGetMultipleForecasts(setError);
     const { startOrResetTimer, stopAndClearTimer, isComplete } = useCountdownTimer(2);
 
+    
+    /*Functions */
     //changeHandler: event handler for search input changes
     const changeHandler = e => {
 
@@ -53,10 +53,9 @@ const SearchLocations = () => {
             return;
         }
 
-        //Search will execute if no input text exists and no changes are detected 
+        //Timer is started, and search will execute if no input text exists and no changes are detected 
         //in the last 2 seconds  
-        setIsLoading(prev => true);
-        
+        setIsLoading(prev => true);   
         startOrResetTimer();
     }
 
@@ -95,32 +94,8 @@ const SearchLocations = () => {
         }
     }, [sendLocationRequest, sendForecastMultipleRequest]);
 
-    //selectHandler: function to handle selection of a single search result
-    const selectHandler = (latitude, longitude, address) => {
 
-        //If latitude and longitude are set, try to fetch weather data
-        if(latitude && longitude){
-            setModalIsLoading(prev => true);
-            sendForecastRequest(latitude, longitude, setSelectedResult, true).then(res => {
-
-                //Insert display name for modal usage
-                setSelectedResult(prev => {
-                    return {...prev, display_name: address.display_name_1 + (address.display_name_2 ? ", " + address.display_name_2 : '')}
-                })
-                setModalIsLoading(prev => false);
-            });
-        } else{
-            alert("Koordinater mangler.");
-        }
-    }
-
-    //When modal is closed, reset all modal properties
-    const resetModal = () => {
-        setModalError(null);
-        setModalIsLoading(false);
-        setSelectedResult();
-    }
-
+    /*Built-in hooks */
     //useEffect method for SearchLocations component
     useEffect(() => {
 
@@ -137,6 +112,8 @@ const SearchLocations = () => {
         }
     }, [isLoading, isComplete, stopAndClearTimer, handleSearch])
 
+
+    /*Content */
     //Declare search content JSX below SearchInput component
     let content = <div>Ingen resultater funnet.</div>
 
@@ -158,7 +135,11 @@ const SearchLocations = () => {
                                 <li key={index}>
                                     <SearchLocation address={searchRes.address} 
                                                     weather={searchRes.weather_data} 
-                                                    onSelect={() => selectHandler(searchRes.lat, searchRes.lon, searchRes.address)}/>            
+                                                    onSelect={() => setSelectedLocation({
+                                                        latitude: searchRes.lat,
+                                                        longitude: searchRes.lon,
+                                                        address: searchRes.address
+                                                    })}/>            
                                 </li>
                             )
                         })} 
@@ -172,10 +153,8 @@ const SearchLocations = () => {
             <SearchInput placeholder={"Søk stedsnavn"} onChange={changeHandler} ref={searchInputRef}
                          error={error}/>
             {content}
-            {(selectedResult || modalIsLoading) && <SearchModal onClose={resetModal} 
-                                                                isLoading={modalIsLoading} 
-                                                                error={modalError}
-                                                                weatherData={selectedResult}/>}
+            {selectedLocation && <SearchModal onClose={() => setSelectedLocation()} 
+                                              location={selectedLocation}/>}
         </>
     )
 };

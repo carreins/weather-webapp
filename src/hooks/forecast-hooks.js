@@ -26,7 +26,6 @@ export const useGetForecast = (setError) => {
 
             try{
 
-                console.log(`${url}/${getWeek ? 'complete' : 'compact'}?lat=${latitude}&lon=${longitude}`);
                 //Try to send request to forecast API
                 const response = await fetch(`${url}/${getWeek ? 'complete' : 'compact'}?lat=${latitude}&lon=${longitude}`);
             

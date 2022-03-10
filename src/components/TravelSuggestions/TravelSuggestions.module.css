@@ -17,3 +17,9 @@
     height: calc(100vh - 220px);
     overflow: auto;
 }
+
+@media (min-height: 1200px) {
+    .list-section ul {
+        height: calc(100vh - 420px);
+    }
+}
