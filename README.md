@@ -4,7 +4,7 @@ This is a simplified web application, created to demonstrate various capabilitie
 states and HTTP communication, as well as the possibility of creating custom hooks and components for usage in a web 
 application.
 
-This demo web application is specifically made for weather reporting, with three main functions/pages:
+This demo is specifically made for weather reporting, with three main functions/pages:
 
 1.  Show the weather forecast of the user's current location.
 2.  Allow the user to search locations by name; it is possible to click a search result to show further details about the weather forecast. The searhc is limited to results within Norway.
