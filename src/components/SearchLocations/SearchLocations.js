@@ -20,6 +20,8 @@ import classes from "./SearchLocations.module.css";
 
 /*IMPORTS END */
 
+
+/*Content */
 const SearchLocations = () => {
     /*useRef */
     const searchInputRef = useRef();
@@ -35,7 +37,7 @@ const SearchLocations = () => {
     /*Custom hooks */
     const sendLocationRequest = useSearchLocation(setError);
     const sendForecastMultipleRequest = useGetMultipleForecasts(setError);
-    const { startOrResetTimer, stopAndClearTimer, isComplete } = useCountdownTimer(2);
+    const { startOrResetTimer, stopAndClearTimer, isComplete } = useCountdownTimer(1);
 
     
     /*Functions */
@@ -47,7 +49,7 @@ const SearchLocations = () => {
         setSearchResults(prev => []);
 
         //If search input is empty, interrupt search
-        if(e.target.value.trim().length === 0){
+        if(e.target.value.trim().length <= 2){
             stopAndClearTimer();
             setIsLoading(prev => false);
             return;

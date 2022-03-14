@@ -11,6 +11,7 @@ import classes from "./SearchInput.module.css";
 
 /*IMPORTS END */
 
+/*Content */
 const SearchInput = React.forwardRef((props, ref) => {
     const { className, labelText, type, placeholder, error, onChange } = props;
     return (

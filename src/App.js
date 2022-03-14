@@ -18,9 +18,16 @@ import './App.css';
 /*IMPORTS END */
 
 function App() {
+
+  /*useState */
   const [menuIsOpen, setMenuIsOpen] = useState(false);
+
+
+  /*Functions */
   const toggleHandler = () => setMenuIsOpen(prev => !prev);
 
+
+  /*Content */
   return (
     <div className="App">
       <BrowserRouter>

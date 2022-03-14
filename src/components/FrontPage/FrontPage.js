@@ -14,9 +14,6 @@ import { useGetForecast } from "../../hooks/forecast-hooks";
 /*Component stylesheet import */
 import classes from "./FrontPage.module.css";
 
-/*Stylesheet import */
-import "bootstrap/dist/css/bootstrap.min.css";
-
 /*IMPORTS END */
 
 const FrontPage = () => {

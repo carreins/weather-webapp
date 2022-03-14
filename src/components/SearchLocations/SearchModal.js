@@ -15,9 +15,9 @@ import classes from './SearchModal.module.css';
 /*IMPORTS END */
 
 
+/*Content */
 //Backdrop component for visual effect of modal
-const Backdrop = props => <div className={classes.backdrop} onClick={props.onClose}/>
-
+const Backdrop = props => <div className={classes.backdrop} onClick={props.onClose} />
 
 //ModalOverlay for display of weather data
 const ModalOverlay = props => {
