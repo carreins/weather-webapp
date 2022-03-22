@@ -11,6 +11,9 @@
 # production
 /build
 
+# deployment
+/infra
+
 # misc
 .DS_Store
 .env.local
